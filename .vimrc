@@ -12,6 +12,7 @@ Plugin 'AndrewRadev/splitjoin.vim'
 Plugin 'SirVer/ultisnips'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'Shougo/neocomplete.vim'
+Plugin 'elzr/vim-json'
 call vundle#end()
 
 " settings
@@ -78,6 +79,9 @@ nnoremap <C-l> <C-w>l
 
 " Enter automatically into the files directory
 autocmd BufEnter * silent! lcd %:p:h
+
+" Set syntax highliting for cfg files (json)
+autocmd BufNewFile,BufRead *.cfg   set syntax=json
 
 " go-vim stuff (https://github.com/fatih/vim-go)
 let mapleader = ","
