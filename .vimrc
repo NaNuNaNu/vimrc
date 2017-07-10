@@ -13,6 +13,8 @@ Plugin 'SirVer/ultisnips'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'Shougo/neocomplete.vim'
 Plugin 'elzr/vim-json'
+Plugin 'tmhedberg/SimpylFold'
+Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 call vundle#end()
 
 " settings
@@ -37,6 +39,10 @@ set laststatus=2                " Show status line always
 set ignorecase                  " Search case insensitive...
 set smartcase                   " ... but not it begins with upper case
 set ttyscroll=3                 " Speedup scrolling
+
+" Enable folding
+set foldmethod=indent
+set foldlevel=99
 
 
 " color scheme
@@ -96,6 +102,7 @@ let g:go_highlight_methods = 1
 let g:go_highlight_extra_types = 1
 let g:go_highlight_generate_tags = 1
 let g:go_auto_type_info = 1
+let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
 
 " Open :GoDeclsDir with ctrl-g
 nmap <C-g> :GoDecls<cr>
@@ -115,7 +122,7 @@ augroup go
   autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
 
   " :GoBuild and :GoTestCompile
-  autocmd FileType go nmap <leader>b :<C-u>call<SID>build_go_files()<CR>
+  autocmd FileType go nmap <leader>b  <Plug>(go-build)
 
   " :GoTest
   autocmd FileType go nmap <leader>t  <Plug>(go-test)
@@ -140,16 +147,3 @@ augroup go
   
   " :GoSameIdsToggle
   autocmd FileType go nmap <Leader>s :GoSameIdsToggle<CR>
-
-
-" run :GoBuild or :GoTestCompile based on the go file
-function! s:build_go_files()
-  let l:file = expand('%')
-  if l:file =~# '^\f\+_test\.go$'
-     call go#cmd#Test(0, 1)
-  elseif l:file =~# '^\f\+\.go$'
-     call go#cmd#Build(0)
-  endif
-endfunction
-
-
